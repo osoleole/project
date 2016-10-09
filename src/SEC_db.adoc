@@ -1,0 +1,10 @@
+== SEC Database
+
+All SEC data is stored in *lamedoc* database.+
+Table *sec_links* contains links to all documents we get from sec.gov.+
+Table *sec_links* is created as in `sec_links_create.sql`
+
+
+
+
+
