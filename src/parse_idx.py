@@ -2,6 +2,8 @@ from collections import defaultdict
 import glob
 import os
 
+import utils
+
 SAVE_DIR = '/disk/sec/index_files/'
 BASE_URL = "ftp://ftp.sec.gov/edgar/full-index/"
 QTR = 'QTR'
@@ -28,20 +30,32 @@ def list_idx():
 
 
 def is_header(header, line):
+    ''' Finds header line in company.indx'''
     return  all([v in line for v in header])
 
 
+def index_header(header):
+    ''' Gets string of headers from file. Returns dictionary {'field_name: index}'''
+    val_indx = dict()
+    for value in VALUES:
+        l = [0,0]
+        l[0] = header.index(value)
+        val_indx[value] = l
+        print(val_indx)
+
+
 def normalize_idx(files):
+    header = False
     for file in files:
         with open(file, 'r') as f:
-            print(f)
-            for i, line in enumerate(f.readlines()):
+            for ln, line in enumerate(f):
                 if is_header(VALUES, line):
-                    print(i)
+                    hl = ln + 2
+                    header = True
                     for val in VALUES:
                         INDXS[val] = line.index(val)
-                        sl = i + 2
-                break
+                if header == True and ln >= hl:
+                    print(line)
 
 
 def files_path(start_year, end_year):
@@ -57,9 +71,12 @@ for line in f[STARTLINE:]:
         company_data[val] = line[indxs['start']: indxs.get('end', len(line))].strip()
     DATA.append(company_data)
 '''
-files= ['/db/sec/index_files/1993_QTR4_company.idx']
+header = 'Company Name                                                  Form Type   CIK         Date Filed  File Name'
+files1= ['/db/sec/index_files/1993_QTR4_company.idx']
+files2= ['/db/sec/index_files/1993_QTR4_company.idx','/db/sec/index_files/1995_QTR4_company.idx']
 
 if __name__ == "__main__":
     #print(list_idx())
-    normalize_idx(files_path(2011,2015))
+    print(index_header(header))
+    normalize_idx(files1)
 
