@@ -1,0 +1,42 @@
+== Install Haskell
+
+Here we describe stack installation procedure
+*Docs:*
+https://docs.haskellstack.org/en/stable/install_and_upgrade/
+
+=== Ubuntu 16.04
+
+
+1. Firstly we need to install some prerecuisits
+`sudo apt-get install g++ gcc libc6-dev libffi-dev libgmp-dev make xz-utils
+zlib1g-dev git gnupg`
+
+2. Get the key
+`sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
+575159689BEFB442`
+
+3. Add repository
+echo 'deb http://download.fpcomplete.com/ubuntu xenial main'|sudo tee
+/etc/apt/sources.list.d/fpco.list
+
+4. Update and install
+`sudo apt-get update && sudo apt-get install stack -y`
+
+5. Shell auto-completion
+`eval "$(stack --bash-completion-script stack)"`
+
+6. Setting up a new project
+Now we can cd to the directory with our projects and create the new one
+`stack new my-project simple`
+
+7. Installing GHC
+Now we can install GHC and packages
+`stack setup`
+
+8. Running the code
+Now we can run the code in the PERL
+`stack ghci`
+
+
+
+

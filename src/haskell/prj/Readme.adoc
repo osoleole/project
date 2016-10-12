@@ -1,0 +1,4 @@
+== Gramatical Framework
+
+This is Haskell binding to Grammatical Framework
+

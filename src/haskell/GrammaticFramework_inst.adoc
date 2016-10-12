@@ -1,0 +1,44 @@
+== Grammatic Framework (GF)
+
+=== Haskell binding
+
+Here is a description of installing GF.
+We succeded to instal GF only on GHS-7.10.3
+
+1. Install *stack* - project manager for Haskell
+
+Install prerequisits +
+`sudo apt-get install g++ gcc libc6-dev libffi-dev libgmp-dev make xz-utils
+zlib1g-dev git gnupg ncurse-dev`
+
+https://docs.haskellstack.org/en/stable/install_and_upgrade/#ubuntu
+Following describes installation for Ubuntu 16.04 +
+
+Get the FP Complete key: +
+`sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys
+575159689BEFB442`
+
+`echo 'deb http://download.fpcomplete.com/ubuntu xenial main'|sudo tee
+/etc/apt/sources.list.d/fpco.list`
+
+2. Update apt and install
+`sudo apt-get update && sudo apt-get install stack -y`
+
+3. After installing *stack* we can install GHC and additional packages
+
+Stack documentation is here +
+https://github.com/commercialhaskell/stack/blob/master/doc/GUIDE.md
+
+4. Setting project with stack and installing GF
+
+Creating new project *prj* with template *simple* +
+`stack new prj simple`
+
+Now modifying file *prj.cabal* to add gf as dependable project under
+*build-depends:* 
+
+
+
+
+
+
