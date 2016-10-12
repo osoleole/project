@@ -4,22 +4,46 @@ import os
 
 import utils
 
-SAVE_DIR = '/disk/sec/index_files/'
+
+##########################
+# Const for sec.gov path #
+##########################
 BASE_URL = "ftp://ftp.sec.gov/edgar/full-index/"
 QTR = 'QTR'
 IDX_FILE = 'company.idx'
 
-
+#########################
+# Const for local paths #
+#########################
 BASE_PATH = '/db/sec/index_files/'
-COMPANY_NAME = 'Company Name'
-FORM_TYPE = 'Form Type'
-CIK = 'CIK'
-DATE_FIELD = 'Date Filed'
-FILE_NAME = 'File Name'
-#STARTLINE = len(f)
-VALUES = [COMPANY_NAME, FORM_TYPE, CIK, DATE_FIELD, FILE_NAME, ]
-INDXS = dict()
-DATA = []
+SAVE_DIR = '/disk/sec/index_files/'
+
+###########################
+# Idx files header format #
+###########################
+HEADER = ['Company Name', 'Form Type', 'CIK', 'Date Filed', 'File Name' ]
+
+
+###################################################
+# Main functions for company.idx files processing #
+###################################################
+def normalize_idx(files, header):
+    ''' Looks for header line in file by template. Process strings that follows after it '''
+    is_found = False
+    for file in files:
+        with open(file, 'r') as f:
+            for ln, line in enumerate(f):
+                if is_header(header, line):
+                    header_line = line
+                    hl = ln + 2
+                    is_found = True
+                if is_found == True and ln >= hl:
+                    print(get_record(header, header_line, line))  # Returns dictionary with header fields and values. 
+
+
+def is_header(header, line):
+    ''' Finds header line in company.indx. Returns True if the string id header'''
+    return  all([v in line for v in header])
 
 
 def list_idx():
@@ -29,54 +53,53 @@ def list_idx():
     return idx_files
 
 
-def is_header(header, line):
-    ''' Finds header line in company.indx'''
-    return  all([v in line for v in header])
-
-
-def index_header(header):
-    ''' Gets string of headers from file. Returns dictionary {'field_name: index}'''
-    val_indx = dict()
-    for value in VALUES:
-        l = [0,0]
-        l[0] = header.index(value)
-        val_indx[value] = l
-        print(val_indx)
-
-
-def normalize_idx(files):
-    header = False
-    for file in files:
-        with open(file, 'r') as f:
-            for ln, line in enumerate(f):
-                if is_header(VALUES, line):
-                    hl = ln + 2
-                    header = True
-                    for val in VALUES:
-                        INDXS[val] = line.index(val)
-                if header == True and ln >= hl:
-                    print(line)
-
-
 def files_path(start_year, end_year):
-    '''Returns a list with the range of paths to  master files 'company.idx'.'''
+    '''Returns a list with the range of paths to master files 'company.idx'.'''
     return[BASE_PATH + str(year) + '_' + QTR + str(qtr) +  '_' +  IDX_FILE
              for qtr in range(1, 5) for year in range(start_year, end_year + 1)]
 
-'''
-for line in f[STARTLINE:]:
-    company_data = {}
-    for val in VALUES:
-        indxs = INDXS[val]
-        company_data[val] = line[indxs['start']: indxs.get('end', len(line))].strip()
-    DATA.append(company_data)
-'''
+
+
+#####################################################################
+# Functions to pocess headers and extract data fields from records. #
+#####################################################################
+
+
+def index_fields(header_fields, header):
+    ''' Find 'start' and 'end' indexes of fields. Return the dictionary with the
+    'field name' and 'start' and 'end' indexes '''
+    indx = []
+    indx_dict = dict()
+
+    for v in header_fields:
+        indx.append(header.index(v))
+    indx.append(None)
+
+    for i, v in enumerate(header_fields):
+        di = dict()
+        di['start'] = indx[i]
+        di['end'] = indx[1:][i]
+        indx_dict[v] = di
+
+    return indx_dict
+
+
+def get_record(header_fields, header, record):
+    ''' Extracts fields from records. Returns dictionary with key as header and records as a record field'''
+    indxs = index_fields(header_fields, header)
+    records_dict = dict()
+
+    for k, v in indxs.items():
+        records_dict[k] = record[v['start']:v['end']].strip()
+
+    return records_dict
+
+
 header = 'Company Name                                                  Form Type   CIK         Date Filed  File Name'
 files1= ['/db/sec/index_files/1993_QTR4_company.idx']
 files2= ['/db/sec/index_files/1993_QTR4_company.idx','/db/sec/index_files/1995_QTR4_company.idx']
 
 if __name__ == "__main__":
     #print(list_idx())
-    print(index_header(header))
-    normalize_idx(files1)
+    normalize_idx(files2, HEADER)
 

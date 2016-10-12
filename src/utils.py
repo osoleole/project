@@ -48,9 +48,19 @@ def remove_none_ascii(text):
     return ''.join([i if ord(i) < 128 else '' for i in str(text)])
 
 
+def make_intervals(v: list, padder='None') -> list:
+    ''' Makes list of interval tuples. For example given (['a','b','c'], None). 
+    Returns [(a,b),(b,c),(c,None)]'''
+    v1 = v[1:].copy()
+    v1.append(padder)
+    return list(zip(v,v1))
+
+
 # def extract_name(file_name):  
 
 
 if __name__ == "__main__":
     print(make_idx_url(1993, 3, "good_man/"))
-    make_dirs()
+    #make_dirs()
+    print(make_intervals(['a','b','c']))
+

@@ -6,5 +6,6 @@
      cik varchar(20) PRIMARY KEY,
      date date,
      link varchar(200),
-     download_status bool
+     download_status bool,
+     
       );    
