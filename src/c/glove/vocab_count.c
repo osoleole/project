@@ -49,7 +49,9 @@ long long max_vocab = 0; // max_vocab = 0 for no limit
 
 /* Efficient string comparison */
 int scmp( char *s1, char *s2 ) {
-    while (*s1 != '\0' && *s1 == *s2) {s1++; s2++;}
+    while (*s1 != '\0' && *s1 == *s2) {
+        s1++; s2++;
+    }
     return(*s1 - *s2);
 }
 
@@ -57,6 +59,7 @@ int scmp( char *s1, char *s2 ) {
 /* Vocab frequency comparison; break ties alphabetically */
 int CompareVocabTie(const void *a, const void *b) {
     long long c;
+    //fprintf(stderr, "VOCAB %lld\n", (((VOCAB *) b)->count - ((VOCAB *) a)->count));
     if ( (c = ((VOCAB *) b)->count - ((VOCAB *) a)->count) != 0) return ( c > 0 ? 1 : -1 );
     else return (scmp(((VOCAB *) a)->word,((VOCAB *) b)->word));
     
@@ -93,12 +96,15 @@ HASHREC ** inithashtable() {
 void hashinsert(HASHREC **ht, char *w) {
     HASHREC	*htmp, *hprv;
     unsigned int hval = HASHFN(w, TSIZE, SEED);
-    
+    int c = 1; 
     for (hprv = NULL, htmp = ht[hval]; htmp != NULL && scmp(htmp->word, w) != 0; hprv = htmp, htmp = htmp->next);
     if (htmp == NULL) {
         htmp = (HASHREC *) malloc( sizeof(HASHREC) );
         htmp->word = (char *) malloc( strlen(w) + 1 );
+        c++;
+        //fprintf(stderr, "\nWord %s count %d\n", w, c);
         strcpy(htmp->word, w);
+        fprintf(stderr, "\nWord %s count %d\n", htmp->word, c);
         htmp->count = 1;
         htmp->next = NULL;
         if ( hprv==NULL )
@@ -127,7 +133,6 @@ int get_counts() {
     HASHREC *htmp;
     VOCAB *vocab;
     FILE *fid = stdin;
-    fprintf(stderr, "####################\n"); 
     fprintf(stderr, "BUILDING VOCABULARY\n");
     if (verbose > 1) fprintf(stderr, "Processed %lld tokens.", i);
     sprintf(format,"%%%ds",MAX_STRING_LENGTH);
@@ -192,6 +197,7 @@ int find_arg(char *str, int argc, char **argv) {
 int main(int argc, char **argv) {
     int i;
     if (argc == 1) {
+        printf("##########################################################\n");
         printf("Simple tool to extract unigram counts\n");
         printf("Author: Jeffrey Pennington (jpennin@stanford.edu)\n\n");
         printf("Usage options:\n");
