@@ -1,0 +1,5 @@
+Number of lines in file.
+This expressions numerates each line
+awk '{print FNR "\t" $0}' filename
+cat -n filename
+

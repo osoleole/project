@@ -1,0 +1,36 @@
+echo 'asdas123mxlc'|grep -o '[0-9]\+'
+123
+
+echo '456asdas123mxlc.678'|grep -o '^[0-9]\+'
+456
+
+echo ' 456asdas123mxlc.678'|grep -o '^[0-9]\+'
+"empty string"
+
+Number with persantage starting string 
+egrep '^[0-9]+%' Book1.txt
+And in any place of text
+egrep '[0-9]+%' Book1.txt
+
+awk '/^[0-9]+%/' Book1.txt
+
+Substitute percentage to <PRECENTAGE> tags
+echo '525.7876%'|awk '/[0-9]*[0-9].[0-9]*[0-9]%/{sub(/[0-9]*\.[0-9]*%/, "<PERCENTAGE>"); print;next;}{print}'
+<PERCENTAGE>
+echo '525.7876%'|awk '/[0-9]*[0-9].[0-9]*[0-9]%/{sub(/[0-9]*\.[0-9]*%/, "<PERCENTAGE>"); print;next;}{print}'
+<PERCENTAGE>
+
+echo '43.01%'|awk '/[0-9]*[0-9]%/{sub(/[0-9]*.[0-9]*%/, "<PERCENTAGE>"); print;next;}{print}'
+
+Substitute numbers
+echo '423.78'|awk '/[0-9]*[0-9]/{sub(/[0-9]*.[0-9]*/, "<NUMBER>"); print;next;}{print}'
+
+Remove numbers from strings like 'word.34'
+echo 'word.45' | awk '/\.[0-9]*[0-9]*/{sub(/\.[0-9]*[0-9]*/, ""); print;next;}{print}'
+word
+
+
+
+
+
+
