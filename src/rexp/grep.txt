@@ -30,7 +30,18 @@ echo 'word.45' | awk '/\.[0-9]*[0-9]*/{sub(/\.[0-9]*[0-9]*/, ""); print;next;}{p
 word
 
 
+# Select everything in parenthesis
+egrep '\(\w*\)$' test.txt
+egrep '\[\w*\]$' test.txt
+
+Only from start
+egrep '^\(\w*\)$' test.txt
 
 
+# Select one word strings shorter than 5 and empty strings 
+egrep '^\w{0,5}$' test.txt 
+
+# Select one word strings shorter than 5
+egrep '^\w{0,5}\b$' test.txt
 
 
