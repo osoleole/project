@@ -1,0 +1,2 @@
+%%writefile mytemplate.tpl
+
