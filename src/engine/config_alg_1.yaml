@@ -1,0 +1,21 @@
+# Model processing configuration file:
+
+# Model parameters 
+model: 
+    project: Lamedoc
+    type: RNN
+    name: Test1
+    type: RNN
+    vector_size: [500, -5]   # vector size [initial_value, step]
+    epochs: [20]             # epoches
+    context_window: [5,4]    # context windows [initial_value, step]
+
+# Input data
+input_data: 
+    dir: [/db/data] # Default directory if empty
+    file_name: [test.txt] # Default name if empty
+   
+# Output data
+output_data:
+    dir: [] # Default directory if empty
+    file_name: []  # Default name if empty

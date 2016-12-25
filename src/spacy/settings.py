@@ -4,11 +4,11 @@ HOME = os.getenv("HOME")
 DB_ROOT = os.path.join(HOME,'db')
 
 # Raw data path
-RAW_DATA_DIR = 'lamedoc/raw/sec'
+RAW_DATA_DIR = 'processed_text/clean'
 RAW_DATA_PATH = os.path.join(HOME,DB_ROOT,RAW_DATA_DIR)
 
-# Processwd data path
-PROCESSED_DATA_DIR = 'lamedoc/processed/sec'
+# Processed data path
+PROCESSED_DATA_DIR = 'processed_text'
 PROCESSED_DATA_PATH = os.path.join(HOME,DB_ROOT,PROCESSED_DATA_DIR)
 
 # N-grams data path
