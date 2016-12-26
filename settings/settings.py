@@ -9,6 +9,8 @@ UNIGRAM = 'unigram'
 BIGRAM = 'bigram'
 TRIGRAM = 'trigram'
 NORMALIZED = 'normalized'
+MODEL = 'model'
+W2V = 'w2v'
 FILE_NAME = 'wiki'
 
 HOME = os.getenv("HOME")
@@ -23,3 +25,6 @@ PROCESSED_DATA_PATH = os.path.join(HOME,DB_ROOT,PROCESSED_DATA_DIR)
 NGRAMS_DATA_PATH = os.path.join(PROCESSED_DATA_PATH,'ngrams')
 # Normailezed data path
 NORMALIZED_DATA_PATH = os.path.join(PROCESSED_DATA_PATH,'normalized')
+# Models data path
+MODELS_DATA_DIR = 'models'
+MODELS_DATA_PATH = os.path.join(HOME,DB_ROOT, MODELS_DATA_DIR) 
